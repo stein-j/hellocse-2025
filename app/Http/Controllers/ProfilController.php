@@ -3,16 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfilStoreRequest;
+use App\Http\Resources\ProfilResource;
 use App\Models\Admin;
 use App\Models\Profil;
 use App\ProfilStatus;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ProfilController extends Controller
+class ProfilController extends Controller implements HasMiddleware
 {
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ProfilStoreRequest $request)
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', only: ['store']),
+        ];
+    }
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $profils = Profil::query()
+            // This is a little brut forced, sorry
+            ->when($request->user() === null, fn ($query) => $query->scopes('active'))
+            ->paginate();
+
+        return ProfilResource::collection($profils);
+    }
+
+    public function store(ProfilStoreRequest $request): JsonResponse
     {
         /** @var Admin $admin */
         $admin = $request->user();

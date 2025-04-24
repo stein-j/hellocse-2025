@@ -6,6 +6,7 @@ use App\ProfilStatus;
 use Database\Factories\ProfilFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,9 +23,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read \App\Models\Admin $admin
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
  *
+ * @method static Builder<static>|Profil active()
  * @method static \Database\Factories\ProfilFactory factory($count = null, $state = [])
  * @method static Builder<static>|Profil newModelQuery()
  * @method static Builder<static>|Profil newQuery()
@@ -50,6 +52,11 @@ class Profil extends Model
         return [
             'status' => ProfilStatus::class,
         ];
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('status', ProfilStatus::Active);
     }
 
     public function admin(): BelongsTo
