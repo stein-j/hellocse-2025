@@ -31,11 +31,17 @@ class Comment extends Model
 {
     protected $guarded = [];
 
+    /**
+     * @return BelongsTo<Admin, $this>
+     */
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
     }
 
+    /**
+     * @return BelongsTo<Profil, $this>
+     */
     public function profil(): BelongsTo
     {
         return $this->belongsTo(Profil::class);

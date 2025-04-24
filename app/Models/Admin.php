@@ -65,11 +65,17 @@ class Admin extends Authenticatable
         ];
     }
 
+    /**
+     * @return HasMany<Profil, $this>
+     */
     public function profils(): HasMany
     {
         return $this->hasMany(Profil::class);
     }
 
+    /**
+     * @return HasMany<Comment, $this>
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

@@ -35,20 +35,20 @@ class CommentTest extends TestCase
         $admin = $this->createAdmin();
         $profil = $this->createProfil();
 
-        // Let's already add a comment from another admin
-        $this->createCommentForAndProfil($profil);
+        // Let's add a second comment from another admin, so make sure the check is per admin
+        $this->createCommentForProfil($profil);
 
         $this
             ->actingAs($admin)
             ->postJson(route('profils.comments.store', $profil), [
-                'content' => 'Hello World.. I mean CSE !',
+                'content' => 'Hello World.. I meant CSE !',
             ])
             ->assertCreated();
 
         $this->assertEquals(2, $profil->comments->count());
         /** @var Comment $comment */
         $comment = $profil->comments->last();
-        $this->assertEquals('Hello World.. I mean CSE !', $comment->content);
+        $this->assertEquals('Hello World.. I meant CSE !', $comment->content);
         $this->assertTrue($admin->is($comment->admin));
         $this->assertTrue($profil->is($comment->profil));
     }
@@ -65,6 +65,7 @@ class CommentTest extends TestCase
                 'content' => 'second comment',
             ])
             ->assertUnprocessable()
+            // Domain code, could be used be the front end.
             ->assertJsonPath('code', 'too_many_comments');
     }
 }

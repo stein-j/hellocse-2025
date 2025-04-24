@@ -11,7 +11,7 @@ class ProfilResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
     public function toArray(Request $request): array
     {
@@ -27,6 +27,9 @@ class ProfilResource extends JsonResource
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function attributsAllowedByAdmin(Request $request, Profil $profil): array
     {
         // JsonResource cannot really retrieve 'extra' info from the controller

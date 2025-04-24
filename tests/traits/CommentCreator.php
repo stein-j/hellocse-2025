@@ -17,7 +17,7 @@ trait CommentCreator
             ->create($params);
     }
 
-    public function createCommentForAndProfil(Profil $profil, $params = []): Comment
+    public function createCommentForProfil(Profil $profil, $params = []): Comment
     {
         return CommentFactory::new()
             ->forProfil($profil)

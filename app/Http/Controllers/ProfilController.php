@@ -55,7 +55,7 @@ class ProfilController extends Controller implements HasMiddleware
 
     public function update(Profil $profil, ProfilUpdateRequest $request): JsonResponse
     {
-        // We can safely retrieve all parameters as they are all validated.
+        // We can safely retrieve all parameters as they are all validated. Extra parameters are excluded
         $profil->update($request->validated());
 
         return response()->json();
@@ -63,6 +63,7 @@ class ProfilController extends Controller implements HasMiddleware
 
     public function destroy(Profil $profil): JsonResponse
     {
+        // Admin is authenticated and authorized
         $profil->delete();
 
         return response()->json();

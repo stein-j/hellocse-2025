@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\ProfilStatus;
 use Database\Factories\ProfilFactory;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,7 +39,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Profil whereLastName($value)
  * @method static Builder<static>|Profil whereStatus($value)
  * @method static Builder<static>|Profil whereUpdatedAt($value)
- * @mixin Eloquent
+ * @mixin \Eloquent
  */
 class Profil extends Model
 {
@@ -56,16 +55,25 @@ class Profil extends Model
         ];
     }
 
+    /**
+     * @param  Builder<self>  $query
+     */
     public function scopeActive(Builder $query): void
     {
         $query->where('status', ProfilStatus::Active);
     }
 
+    /**
+     * @return BelongsTo<Admin, $this>
+     */
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
     }
 
+    /**
+     * @return HasMany<Comment, $this>
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

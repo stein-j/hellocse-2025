@@ -13,11 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        Admin::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // I could have used seeders to add a dataset,
+        // but I am used to creating my database per
+        // tests, it is much slower though.
     }
 }
