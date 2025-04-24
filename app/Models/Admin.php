@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -21,7 +23,6 @@ use Illuminate\Notifications\Notifiable;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Profil> $profils
  * @property-read int|null $profils_count
- *
  * @method static \Database\Factories\AdminFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newQuery()
@@ -33,7 +34,6 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Admin extends Authenticatable
@@ -41,16 +41,7 @@ class Admin extends Authenticatable
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['password'];
 
     /**
      * The attributes that should be hidden for serialization.

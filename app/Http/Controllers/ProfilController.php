@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfilStoreRequest;
+use App\Http\Requests\ProfilUpdateRequest;
 use App\Http\Resources\ProfilResource;
 use App\Models\Admin;
 use App\Models\Profil;
@@ -18,7 +19,11 @@ class ProfilController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', only: ['store']),
+            // TODO: Find a better way to handle middlewares.
+            new Middleware('auth:sanctum', only: ['store', 'update', 'destroy']),
+            new Middleware('can:update,profil', only: ['update']),
+            new Middleware('can:delete,profil', only: ['destroy']),
+
         ];
     }
 
@@ -46,5 +51,20 @@ class ProfilController extends Controller implements HasMiddleware
         $profil->save();
 
         return response()->json([], 201);
+    }
+
+    public function update(Profil $profil, ProfilUpdateRequest $request): JsonResponse
+    {
+        // We can safely retrieve all parameters as they are all validated.
+        $profil->update($request->validated());
+
+        return response()->json();
+    }
+
+    public function destroy(Profil $profil): JsonResponse
+    {
+        $profil->delete();
+
+        return response()->json();
     }
 }

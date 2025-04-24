@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $admin_id
  * @property string $first_name
@@ -25,7 +27,6 @@ use Illuminate\Support\Carbon;
  * @property-read \App\Models\Admin $admin
  * @property-read Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
- *
  * @method static Builder<static>|Profil active()
  * @method static \Database\Factories\ProfilFactory factory($count = null, $state = [])
  * @method static Builder<static>|Profil newModelQuery()
@@ -39,13 +40,14 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Profil whereLastName($value)
  * @method static Builder<static>|Profil whereStatus($value)
  * @method static Builder<static>|Profil whereUpdatedAt($value)
- *
  * @mixin Eloquent
  */
 class Profil extends Model
 {
     /** @use HasFactory<ProfilFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 
     protected function casts(): array
     {
