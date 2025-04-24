@@ -5,16 +5,14 @@ namespace App\Models;
 use App\ProfilStatus;
 use Database\Factories\ProfilFactory;
 use Eloquent;
-use Faker\Core\Blood;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
- *
  * @property int $id
  * @property int $admin_id
  * @property string $first_name
@@ -24,6 +22,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read \App\Models\Admin $admin
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
+ *
  * @method static \Database\Factories\ProfilFactory factory($count = null, $state = [])
  * @method static Builder<static>|Profil newModelQuery()
  * @method static Builder<static>|Profil newQuery()
@@ -36,6 +37,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Profil whereLastName($value)
  * @method static Builder<static>|Profil whereStatus($value)
  * @method static Builder<static>|Profil whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class Profil extends Model
@@ -53,5 +55,10 @@ class Profil extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }
